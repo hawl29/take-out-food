@@ -38,42 +38,41 @@ function compute(order_sheet1) {
      }
      sum2+=temp_price;
   }
-  if(sum1<30)
+  if(sum1<30&&sum1==sum2)
   {
     output.preferential_way='';
     output.total_price=sum1;
   }
-  else if(sum1>sum2)
+  else if(sum1>=30&&sum1-6<sum2)
   {
-    output.preferential_way='使用优惠<br><br>'+promotion[0].type + ','+'省6元<br><br>';
-    output.preferential_way+='--------------------------------------------------------<br><br>';
+    output.preferential_way='\n使用优惠:\n'+promotion[0].type + '，'+'省6元';
+    output.preferential_way+='\n-----------------------------------';
     output.total_price=sum1-6;
   }
   else
   {
-    output.preferential_way='使用优惠<br><br>'+promotion[1].type + '(黄焖鸡，凉皮)' +','+ '省' + sum1-sum2 + '元<br><br>';
-    output.preferential_way+='--------------------------------------------------------<br><br>';
+    output.preferential_way='\n使用优惠:\n'+promotion[1].type+'(黄焖鸡，凉皮)'+'，'+'省'+(sum1-sum2)+'元';
+    output.preferential_way+='\n-----------------------------------';
     output.total_price=sum2;
   }
   return output;
 }
-/*function print_order(output,order_sheet) {
+function print_order(output,order_sheet)
+{
   var temp,box;
-  console.log('============= 订餐明细 =============\n');
+  box='============= 订餐明细 =============\n';
   for(var i=0;i<order_sheet.length;i++)
   {
     temp=order_sheet[i].price*order_sheet[i].count;
-    console.log(order_sheet[i].name+'x'+order_sheet[i].count+'='+temp+'元\n');
+    box+=order_sheet[i].name+' x '+order_sheet[i].count+' = '+temp+'元\n';
   }
-  console.log('-----------------------------------\n');
-  console.log('使用优惠\n');
-  console.log(output.preferential_way);
-  console.log('\n-----------------------------------\n');
-  console.log('总计：'+output.total_price+'元\n');
-  console.log('===================================');
+  box+='-----------------------------------';
+  box+=output.preferential_way;
+  box+='\n总计：'+output.total_price+'元\n';
+  box+='===================================';
   return box;
-}*/
-function print_order(output,order_sheet) {
+}
+/*function print_order(output,order_sheet) {
   var temp,box;
   document.write('============= 订餐明细 =============<br><br>');
   for(var i=0;i<order_sheet.length;i++)
@@ -86,12 +85,13 @@ function print_order(output,order_sheet) {
   document.write('总计：'+output.total_price+'元<br><br>');
   document.write('===================================');
   document.write( "<br><br><br><br>");
-}
+
+}*/
 function bestCharge(selectedItems) {
 
   var order_data=convert(selectedItems);
   var summary=compute(order_data);
-  print_order(summary,order_data);
-  return /*TODO*/;
+  var output=print_order(summary,order_data);
+  return output; /*TODO*/;
 }
 
